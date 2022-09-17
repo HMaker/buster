@@ -1,60 +1,21 @@
-<p align="center"><img width="128" height="128" src="https://i.imgur.com/uVpmR8l.png"></p>
-<h1 align="center">Buster: Captcha Solver for Humans</h1>
+## Buster for Bots
+This project is a fork of https://github.com/dessant/buster to support automation.
 
-<p align="center">
-  </br></br>
-  <a href="https://chrome.google.com/webstore/detail/mpbjkejclgfgadiemmefgebjfooflfhl">
-    <img height="58" src="https://i.imgur.com/K9Yh8G9.png" alt="Chrome Web Store"></a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/buster-captcha-solver/">
-    <img height="58" src="https://i.imgur.com/2jJOtTI.png" alt="Firefox add-ons"></a>
-  <a href="https://microsoftedge.microsoft.com/addons/detail/admkpobhocmdideidcndkfaeffadipkc">
-    <img height="58" src="https://i.imgur.com/es2YFRA.png" alt="Microsoft Store"></a>
-  <a href="https://addons.opera.com/en/extensions/details/buster-captcha-solver-for-humans/">
-    <img height="58" src="https://i.imgur.com/IYYsrwg.png" alt="Opera add-ons"></a>
-  </br></br>
-</p>
+The DOM Shadow Root which wraps Buster solver button is now on open mode, this allow you to automate the interactions with this button.
 
-## Supporting the Project
+When the Buster solver is ready to run the CSS class `idle` is added to the solver button `#solver-button` found on the shadow tree. When the solver is running the class `working` is added. When the solver fails the class `retry` is added, you should refresh the recaptcha challenge and try again.
 
-The continued development of Buster is made possible
-thanks to the support of awesome backers. If you'd like to join them,
-please consider contributing with
-[Patreon](https://armin.dev/go/patreon?pr=buster&src=repo),
-[PayPal](https://armin.dev/go/paypal?pr=buster&src=repo) or
-[Bitcoin](https://armin.dev/go/bitcoin?pr=buster&src=repo).
+## Building
+Automatic speech recognition API configuration is available only for [wit.ai](https://wit.ai). Create a JSON file `secrets.json` on the project directory using `secrets.json.example` as template and fill the API keys for all languages you need, then build the extension with `yarn build:prod:chrome` for example.
 
-## Description
+Don't build the zip bundle since you need the unpacked extension to load on Chrome automatically through the `--load-extension` command line argument.
 
-> Obviously, this blue part here is the land.
->
-> — <cite>Byron "Buster" Bluth, reading a map</cite>
-
-Buster is a browser extension which helps you to solve difficult captchas
-by completing reCAPTCHA audio challenges using speech recognition.
-Challenges are solved by clicking on the extension button at the bottom
-of the reCAPTCHA widget.
-
-reCAPTCHA challenges remain a considerable burden on the web,
-delaying and often blocking our access to services and information
-depending on our physical and cognitive abilities, our social
-and cultural background, and the devices or networks we connect from.
-
-The difficulty of captchas can be so out of balance,
-that sometimes they seem friendlier to bots than they are to humans.
-
-The goal of this project is to improve our experience with captchas,
-by giving us easy access to solutions already utilized by automated systems.
-
-## Screenshots
-
-<p>
-  <img width="380" src="https://i.imgur.com/hTqeN4z.png">
-  <img width="380" src="https://i.imgur.com/o0qqDd5.png">
-</p>
+For full building instructions see the [wiki](https://github.com/dessant/buster/wiki/Building-the-extension-on-Ubuntu). 
 
 ## License
 
-Copyright (c) 2018-2022 Armin Sebastian
+Copyright (c) 2018-2022 Armin Sebastian<br>
+Copyright (c) 2022 Heraldo Lucena
 
 This software is released under the terms of the GNU General Public License v3.0.
 See the [LICENSE](LICENSE) file for further information.

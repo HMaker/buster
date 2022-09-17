@@ -13,14 +13,26 @@ import {targetEnv, clientAppVersion} from 'utils/config';
 
 let solverWorking = false;
 let solverButton = null;
+let solverRetry = false;
 
-function setSolverState({working = true} = {}) {
+function setSolverState({working = true, retry = false} = {}) {
   solverWorking = working;
+  solverRetry = retry;
   if (solverButton) {
     if (working) {
       solverButton.classList.add('working');
     } else {
       solverButton.classList.remove('working');
+    }
+    if (retry) {
+      solverButton.classList.add('retry');
+    } else {
+      solverButton.classList.remove('retry');
+    }
+    if (!working && !retry) {
+      solverButton.classList.add('idle');
+    } else {
+      solverButton.classList.remove('idle');
     }
   }
 }
@@ -62,7 +74,7 @@ function syncUI() {
       : 2;
 
     const shadow = helpButtonHolder.attachShadow({
-      mode: 'closed',
+      mode: 'open',
       delegatesFocus: true
     });
 
@@ -80,6 +92,10 @@ function syncUI() {
     solverButton.id = 'solver-button';
     if (solverWorking) {
       solverButton.classList.add('working');
+    } else if (solverRetry) {
+      solverButton.classList.add('retry');
+    } else {
+      solverButton.classList.add('idle');
     }
 
     solverButton.addEventListener('click', solveChallenge);
@@ -395,22 +411,23 @@ function solveChallenge(ev) {
   ev.preventDefault();
   ev.stopImmediatePropagation();
 
-  if (!ev.isTrusted || solverWorking) {
+  if (solverWorking) {
     return;
   }
   setSolverState({working: true});
 
   runSolver(ev)
+    .then(() => {
+      setSolverState({working: false});
+    })
     .catch(err => {
+      setSolverState({working: false, retry: true});
       browser.runtime.sendMessage({
         id: 'notification',
         messageId: 'error_internalError'
       });
       console.log(err.toString());
       throw err;
-    })
-    .finally(() => {
-      setSolverState({working: false});
     });
 }
 
